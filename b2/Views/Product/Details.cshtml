@@ -1,0 +1,20 @@
+﻿@model b2.Models.Product
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Chi tiet SP";
+}
+
+<h2>Product Details</h2>
+
+<div class="card" style="width: 20rem;">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">ID: @Model.Id</p>
+        <p class="card-text">gia: @Model.Price.ToString("N0") đ</p>
+    </div>
+</div>
+
+<a class="btn btn-secondary" asp-controller="Product" asp-action="Index">Quay ve danh sach</a>
