@@ -1,0 +1,31 @@
+﻿@model List<WebShopMVC.Models.Product>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Trang chủ";
+    var categories = ViewBag.Categories as List<WebShopMVC.Models.Category>;
+}
+
+<h2 class="title">Trang chủ</h2>
+
+
+@foreach (var cat in categories)
+{
+    <h3 class="mb-3">@cat.CategoryName</h3>
+    <div class="row mb-5">
+        @foreach (var product in Model.Where(p => p.CategoryId == cat.Id))
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm product-card">
+                    <img src="@product.ImageUrl" class="card-img-top fixed-img" alt="@product.ProductName">
+                    <div class="card-body text-center d-flex flex-column">
+                        <h5 class="card-title flex-grow-1">@product.ProductName</h5>
+                        <p class="text-danger fw-bold">@product.Price.ToString("N0") đ</p>
+                        <a href="#" class="btn btn-success btn-sm mt-auto">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+}

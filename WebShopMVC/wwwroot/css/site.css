@@ -1,0 +1,31 @@
+﻿/* Style chung */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+}
+.title{
+    text-align: center;
+}
+/* Card sản phẩm */
+/* Ảnh cố định cùng chiều cao */
+.fixed-img {
+    height: 250px;
+    object-fit: cover;
+    background-color: #fff;
+    padding: 10px;
+}
+
+.card-body{
+    height: 150px
+}
+
+/* Card sản phẩm */
+.product-card {
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+    }
