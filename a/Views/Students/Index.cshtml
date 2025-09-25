@@ -1,0 +1,36 @@
+﻿@model IEnumerable<CodeFirst.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<h2>Danh sách sinh viên</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Tên</th>
+            <th>Tuổi</th>
+            <th>Khóa học đăng ký</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.Name</td>
+                <td>@s.Age</td>
+                <td>
+                    @foreach (var c in s.Courses)
+                    {
+                        <span class="badge bg-primary">@c.Title</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
