@@ -1,0 +1,152 @@
+﻿@model IEnumerable<StudentMarksMVC.ViewModels.StudentWithScoresViewModel>
+
+<div class="container mt-4">
+    <h2 class="mb-4">Student Marks Management</h2>
+    <!-- Thông báo thành công -->
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Thông báo lỗi -->
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Thanh công cụ -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="input-group w-50">
+            <input type="text" id="searchBox" class="form-control" placeholder="Search students..." />
+        </div>
+        <div>
+            <a class="btn btn-primary me-2">Add Student</a>
+            <a class="btn btn-outline-secondary">Filter</a>
+        </div>
+    </div>
+
+    <!-- Bảng dữ liệu -->
+    <table class="table table-hover table-bordered text-center align-middle">
+        <thead class="table-light">
+            <tr>
+                <th>Student</th>
+                <th>Math</th>
+                <th>Science</th>
+                <th>English</th>
+                <th>History</th>
+                <th>Art</th>
+                <th>Average</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="studentTable">
+            @foreach (var s in Model)
+            {
+                <tr>
+                    <td class="text-start">
+                        <strong>@s.FullName</strong><br />
+                        <small>Grade @s.Grade - Class @s.Class</small>
+                    </td>
+                    <td>@s.Math</td>
+                    <td>@s.Science</td>
+                    <td>@s.English</td>
+                    <td>@s.History</td>
+                    <td>@s.Art</td>
+                    <td>
+                        <div>
+                            <span>@s.Average.ToString("0.0")%</span>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar @(s.Average >= 85 ? "bg-success" : s.Average >= 60 ? "bg-warning" : "bg-danger")"
+                                     role="progressbar" style="width: @s.Average%">
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <!-- Update -->
+                        <a class="btn btn-sm btn-outline-primary me-1"
+                           href="@Url.Action("Edit", "Home", new { id = s.StudentId })">
+                            ✏️ Update
+                        </a>
+
+
+                        <!-- Delete -->
+                        <form asp-action="Delete" asp-controller="Home" asp-route-id="@s.StudentId" method="post"
+                              style="display:inline;"
+                              onsubmit="return confirm('Bạn có chắc chắn muốn xóa học sinh này không?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                🗑️ Delete
+                            </button>
+                        </form>
+
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- Phân trang -->
+    <nav>
+        <ul class="pagination justify-content-center">
+            @for (int i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Index", new { page = i, pageSize = 10 })">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+
+    <!-- Thống kê -->
+    <div class="row text-center mt-4">
+        <div class="col-md-3">
+            <div class="p-3 bg-light border rounded">
+                <h6>Total Students</h6>
+                <h3>@ViewBag.TotalStudents</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 bg-light border rounded">
+                <h6>Average Score</h6>
+                <h3>@ViewBag.AverageScore.ToString("0.0")%</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 bg-light border rounded">
+                <h6>Top Student</h6>
+                <h3>@ViewBag.TopStudent.ToString("0.0")%</h3>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 bg-light border rounded">
+                <h6>Low Scores</h6>
+                <h3>@ViewBag.LowScores Students</h3>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById("searchBox").addEventListener("keyup", function () {
+        var filter = this.value.toLowerCase();
+        var rows = document.querySelectorAll("#studentTable tr");
+
+        rows.forEach(row => {
+            var name = row.cells[0].innerText.toLowerCase();
+            row.style.display = name.includes(filter) ? "" : "none";
+        });
+    });
+    setTimeout(function () {
+        var alert = document.querySelector('.alert');
+        if (alert) {
+            var bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        }
+    }, 3000);
+</script>

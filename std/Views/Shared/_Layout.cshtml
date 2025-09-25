@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"] - Student Marks</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div class="container mt-4">
+        <header>
+            <h1 class="text-center mb-4">Student Marks Management</h1>
+        </header>
+
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+
+        <footer class="text-center mt-4">
+            <p>&copy; @DateTime.Now.Year - Student Marks WEB BY DUY NAM</p>
+        </footer>
+    </div>
+   
+</body>
+</html>
